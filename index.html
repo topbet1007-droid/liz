@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maria's Bridesmaid Proposal</title>
+  <meta name="description" content="A little question from Maria, with love." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="locked">
+
+  <!-- ============ ENVELOPE INTRO ============ -->
+  <div id="intro" class="intro">
+    <div class="sprig sprig--tl" data-sprig="1"></div>
+    <div class="sprig sprig--br" data-sprig="2"></div>
+
+    <p class="intro__to">A little something for you</p>
+
+    <button id="envelope" class="envelope" aria-label="Open the envelope">
+      <div class="envelope__back"></div>
+      <div class="envelope__card">
+        <span class="script" data-bind="brideName"></span>
+        <small>has a question for you</small>
+      </div>
+      <div class="envelope__pocket"></div>
+      <div class="envelope__flap"></div>
+      <div class="envelope__seal"><span data-bind="monogram"></span></div>
+    </button>
+
+    <p class="intro__hint">Tap the envelope to open</p>
+  </div>
+
+  <!-- ============ MAIN PAGE ============ -->
+  <main id="page" class="page" aria-hidden="true">
+
+    <!-- Letter -->
+    <section class="section section--letter">
+      <div class="sprig sprig--tl" data-sprig="3"></div>
+      <div class="sprig sprig--br" data-sprig="4"></div>
+      <p class="eyebrow reveal">To my dearest girls</p>
+      <article class="letter reveal">
+        <div class="letter__body" data-bind-html="letter"></div>
+        <p class="letter__sign">
+          <span>With all my love,</span>
+          <span class="script" data-bind="brideName"></span>
+        </p>
+      </article>
+      <div class="scroll-cue" aria-hidden="true">
+        <span>scroll</span>
+        <i></i>
+      </div>
+    </section>
+
+    <!-- Couple -->
+    <section class="section section--couple">
+      <p class="eyebrow reveal">Two hearts, one story</p>
+      <div class="frame reveal">
+        <div class="frame__inner" id="couple-photo">
+          <span class="frame__monogram script" data-bind="monogram"></span>
+        </div>
+      </div>
+      <h2 class="names reveal">
+        <span class="script" data-bind="groomName"></span>
+        <span class="amp">&amp;</span>
+        <span class="script" data-bind="brideName"></span>
+      </h2>
+      <p class="caps reveal">are getting married!</p>
+      <p class="tagline reveal" data-bind-html="tagline"></p>
+    </section>
+
+    <!-- Question -->
+    <section class="section section--question" id="question">
+      <div class="sprig sprig--tr" data-sprig="5"></div>
+      <div class="question card reveal">
+        <p class="eyebrow">So, I have to ask&hellip;</p>
+        <h2 class="question__title">
+          <span class="caps">Will you be my</span>
+          <span class="script big">Bridesmaid?</span>
+        </h2>
+        <div class="question__buttons" id="answer-buttons">
+          <button class="btn btn--solid" data-answer>Yes, I will!</button>
+          <button class="btn btn--ghost" data-answer>Of course!</button>
+        </div>
+        <p class="question__hint" id="answer-hint">Say yes to see all the details</p>
+        <div class="question__thanks" id="thanks" hidden>
+          <p class="script big">Thank you!</p>
+          <p data-bind="thanksMessage"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Everything below stays hidden until they say yes -->
+    <div id="after-yes" hidden>
+
+    <!-- Details -->
+    <section class="section section--details">
+      <p class="eyebrow reveal">Save the date</p>
+      <p class="date reveal" data-bind="dateDisplay"></p>
+      <div class="rule reveal"></div>
+      <p class="caps venue reveal" data-bind="venue"></p>
+      <p class="venue-sub reveal" data-bind="venueCity"></p>
+
+      <div class="countdown reveal" id="countdown" aria-live="polite">
+        <div><b data-unit="days">0</b><small>days</small></div>
+        <div><b data-unit="hours">0</b><small>hours</small></div>
+        <div><b data-unit="minutes">0</b><small>mins</small></div>
+        <div><b data-unit="seconds">0</b><small>secs</small></div>
+      </div>
+
+      <a class="btn btn--ghost reveal" id="map-link" target="_blank" rel="noopener">View on map</a>
+
+      <figure class="std-card reveal">
+        <img src="assets/save-the-date.webp" alt="Save the date card for Franz and Maria, 12 December 2027" loading="lazy" />
+      </figure>
+    </section>
+
+    <!-- Entourage info -->
+    <section class="section section--entourage">
+      <div class="sprig sprig--tl" data-sprig="6"></div>
+      <p class="eyebrow reveal">For my bridesmaids</p>
+      <h2 class="section-title reveal"><span class="script">The little details</span></h2>
+
+      <div class="card reveal">
+        <p class="caps small">Our colours</p>
+        <div class="swatches" id="swatches"></div>
+        <p class="caps small">Dress code</p>
+        <p class="body-text" data-bind="dressCode"></p>
+      </div>
+
+      <div class="card reveal">
+        <p class="caps small">Dates to remember</p>
+        <ul class="timeline" id="timeline"></ul>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p class="script" data-bind="monogramLong"></p>
+      <p class="caps small" data-bind="dateDisplay"></p>
+      <p class="tiny">Formal invitation to follow.</p>
+    </footer>
+    </div>
+  </main>
+
+  <!-- Music toggle -->
+  <button id="music-toggle" class="music" aria-label="Pause music" hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></svg>
+  </button>
+  <audio id="bg-music" loop preload="none"></audio>
+
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
