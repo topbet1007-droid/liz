@@ -302,17 +302,33 @@ function draw() {
 }
 
 // ---------- Details unlock after "yes" ----------
-function showDetails() {
+function showDetails(instant) {
   const after = document.getElementById("after-yes");
+  const question = document.getElementById("question");
   if (!after.hidden) return;
-  after.hidden = false;
-  // let the thank-you and confetti play, then glide down to the details
-  setTimeout(() => {
-    after.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-in"));
+  try { localStorage.setItem("fm-said-yes", "1"); } catch (e) {}
+
+  const swap = () => {
+    question.hidden = true;
+    after.hidden = false;
+    if (instant) return;
     const top = after.getBoundingClientRect().top + scrollY;
-    const startY = scrollY;
-    scrollTo({ top, behavior: "smooth" });
-    // some phone browsers ignore smooth scrolling; jump if nothing moved
-    setTimeout(() => { if (Math.abs(scrollY - startY) < 5) scrollTo({ top, behavior: "instant" }); }, 900);
-  }, 1800);
+    scrollTo({ top, behavior: "instant" });
+    requestAnimationFrame(() =>
+      after.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-in"))
+    );
+  };
+  if (instant) return swap();
+
+  // let the thank-you and confetti play, then fade the question card out
+  // and put the details in its place
+  setTimeout(() => {
+    question.classList.add("is-leaving");
+    setTimeout(swap, 600);
+  }, 2200);
 }
+
+// she already said yes on this phone: skip the question next time
+try {
+  if (localStorage.getItem("fm-said-yes")) showDetails(true);
+} catch (e) {}

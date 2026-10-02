@@ -381,13 +381,6 @@ img { max-width: 100%; display: block; }
 .countdown b { display: block; font-weight: 500; font-size: 1.7rem; color: var(--ink); line-height: 1.1; }
 .countdown small { font-size: .6rem; letter-spacing: .25em; text-transform: uppercase; }
 
-.std-card {
-  width: 100%;
-  max-width: 380px;
-  margin-top: 3rem;
-  box-shadow: var(--shadow);
-  transform: rotate(-2deg);
-}
 
 /* ---------- Entourage ---------- */
 .section-title { font-weight: 400; margin-bottom: 2rem; }
@@ -438,7 +431,6 @@ img { max-width: 100%; display: block; }
 /* ---------- Scroll reveal ---------- */
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity 1s ease, transform 1s ease; }
 .reveal.is-in { opacity: 1; transform: none; }
-.std-card.reveal.is-in { transform: rotate(-2deg); }
 @keyframes rise { from { opacity: 0; transform: translateY(12px); } }
 
 @media (prefers-reduced-motion: reduce) {
@@ -519,3 +511,7 @@ body { overflow-x: clip; overscroll-behavior-y: none; }
 }
 .bullets li:last-child { border-bottom: 0; }
 .bullets em { font-style: italic; color: var(--ink-soft); }
+
+/* question card fades away after a yes */
+.section--question { transition: opacity .6s ease; }
+.section--question.is-leaving { opacity: 0; }
