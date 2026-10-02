@@ -317,6 +317,8 @@ function showDetails(instant) {
 
   const swap = () => {
     question.hidden = true;
+    // she has read the letter already; keep the final page to the details
+    document.querySelector(".section--letter").hidden = true;
     after.hidden = false;
     if (instant) return;
     const top = after.getBoundingClientRect().top + scrollY;
