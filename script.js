@@ -21,7 +21,7 @@ const CONFIG = {
   // The torn-paper letter. Each <p> is a paragraph.
   letter: `
     <p>As I start this new chapter of my life, I keep thinking about the people who have walked with me through every other one.</p>
-    <p>You've laughed with me, cried with me, and loved me through it all. I can't imagine standing at the altar without you beside me.</p>
+    <p>I can't imagine standing at the altar without you beside me.</p>
   `,
 
   thanksMessage: "You just made my heart so full. I can't wait to celebrate with you!",
@@ -34,13 +34,21 @@ const CONFIG = {
   // Leave empty to hide the music button.
   music: "",
 
-  palette: ["#4f5a3a", "#9aa78a", "#c9d0bd", "#d8ccb3", "#f8f6ef"],
-  dressCode: "Sage green, floor-length. Details to follow!",
+  expenses: [
+    "Dress Sewing Fee <em>(fabric is on us)</em>",
+    "Hair &amp; Make-Up",
+    "Travel to Antipolo",
+  ],
+
+  duties: [
+    "Capture BTS Photos &amp; Videos",
+    "Stand by My Side on My Special Day",
+    "Cry Happy Tears with Me",
+    "Make Beautiful Memories Together ✨",
+  ],
 
   dates: [
-    { label: "Gown fitting", when: "TBA" },
     { label: "Prenup shoot", when: "TBA" },
-    { label: "Bridal shower", when: "TBA" },
     { label: "The big day", when: "Dec 12, 2027" },
   ],
 };
@@ -61,9 +69,9 @@ document.querySelectorAll("[data-bind-html]").forEach((el) => {
 
 document.getElementById("map-link").href = CONFIG.mapUrl;
 
-document.getElementById("swatches").innerHTML = CONFIG.palette
-  .map((c) => `<span style="background:${c}" title="${c}"></span>`)
-  .join("");
+const listItems = (items) => items.map((t) => `<li>${t}</li>`).join("");
+document.getElementById("expenses").innerHTML = listItems(CONFIG.expenses);
+document.getElementById("duties").innerHTML = listItems(CONFIG.duties);
 
 document.getElementById("timeline").innerHTML = CONFIG.dates
   .map((d) => `<li><b>${d.label}</b><span>${d.when}</span></li>`)

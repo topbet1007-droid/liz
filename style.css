@@ -506,3 +506,16 @@ body { overflow-x: clip; overscroll-behavior-y: none; }
   font-size: .95rem;
   color: var(--ink-soft);
 }
+
+/* ---------- Expenses & duties lists ---------- */
+.section--entourage .card + .card { margin-top: 1.4rem; }
+.caps .num { font-family: var(--serif); letter-spacing: .1em; }
+.bullets { list-style: none; }
+.bullets li {
+  padding: .75rem 0;
+  border-bottom: 1px dashed var(--line, #d9d6cb);
+  color: var(--ink);
+  line-height: 1.5;
+}
+.bullets li:last-child { border-bottom: 0; }
+.bullets em { font-style: italic; color: var(--ink-soft); }
