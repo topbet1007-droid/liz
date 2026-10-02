@@ -57,6 +57,12 @@ const CONFIG = {
    Nothing below needs editing.
    ========================================================= */
 
+// Always start at the top. Phones otherwise restore the old scroll
+// position on reload, which drops guests straight onto the question.
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+const toTop = () => scrollTo({ top: 0, left: 0, behavior: "instant" });
+toTop();
+
 document.body.classList.add("locked");
 
 // ---------- Fill content ----------
@@ -190,7 +196,8 @@ document.getElementById("envelope").addEventListener("click", () => {
     document.body.classList.remove("locked");
     page.classList.add("is-visible");
     page.removeAttribute("aria-hidden");
-    window.scrollTo(0, 0);
+    toTop();
+    requestAnimationFrame(toTop);
   }, 2500);
 });
 
@@ -332,3 +339,7 @@ function showDetails(instant) {
 try {
   if (localStorage.getItem("fm-said-yes")) showDetails(true);
 } catch (e) {}
+
+// coming back via the browser's back button shows the cached page as it was;
+// start it fresh instead so the envelope shows again
+window.addEventListener("pageshow", (e) => { if (e.persisted) location.reload(); });
