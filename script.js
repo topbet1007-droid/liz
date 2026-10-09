@@ -85,8 +85,12 @@ if (ROLE === "maid-of-honor") {
   document.querySelector(".question__title .script").textContent = m.question;
   document.querySelector(".section--entourage .eyebrow").textContent = m.detailsFor;
 }
-// each page remembers its own yes
-const YES_KEY = ROLE === "maid-of-honor" ? "fm-moh-said-yes" : "fm-said-yes";
+// Every visit shows the whole flow. Clear the "already said yes" flag that
+// earlier versions saved, so phones that tested the link get asked again.
+try {
+  localStorage.removeItem("fm-said-yes");
+  localStorage.removeItem("fm-moh-said-yes");
+} catch (e) {}
 
 // ---------- Fill content ----------
 document.querySelectorAll("[data-bind]").forEach((el) => {
@@ -332,26 +336,22 @@ function draw() {
 }
 
 // ---------- Details unlock after "yes" ----------
-function showDetails(instant) {
+function showDetails() {
   const after = document.getElementById("after-yes");
   const question = document.getElementById("question");
   if (!after.hidden) return;
-  try { localStorage.setItem(YES_KEY, "1"); } catch (e) {}
 
   const swap = () => {
     question.hidden = true;
     // she has read the letter already; keep the final page to the details
     document.querySelector(".section--letter").hidden = true;
     after.hidden = false;
-    if (instant) return;
     const top = after.getBoundingClientRect().top + scrollY;
     scrollTo({ top, behavior: "instant" });
     requestAnimationFrame(() =>
       after.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-in"))
     );
   };
-  if (instant) return swap();
-
   // let the thank-you and confetti play, then fade the question card out
   // and put the details in its place
   setTimeout(() => {
@@ -359,11 +359,6 @@ function showDetails(instant) {
     setTimeout(swap, 600);
   }, 2200);
 }
-
-// she already said yes on this phone: skip the question next time
-try {
-  if (localStorage.getItem(YES_KEY)) showDetails(true);
-} catch (e) {}
 
 // coming back via the browser's back button shows the cached page as it was;
 // start it fresh instead so the envelope shows again
