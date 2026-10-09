@@ -47,6 +47,17 @@ const CONFIG = {
     "Make Beautiful Memories Together ✨",
   ],
 
+  // ---------- Maid of honor page (maid-of-honor/index.html) ----------
+  // Same page, different wording and duties.
+  maidOfHonor: {
+    greeting: "To my dearest friend",
+    question: "Maid of Honor?",
+    detailsFor: "For my maid of honor",
+    duties: [
+      "Be the bride’s main support person",
+    ],
+  },
+
   dates: [
     { label: "Prenup shoot", when: "TBA" },
     { label: "The big day", when: "Dec 12, 2027" },
@@ -64,6 +75,18 @@ const toTop = () => scrollTo({ top: 0, left: 0, behavior: "instant" });
 toTop();
 
 document.body.classList.add("locked");
+
+// ---------- Which page is this? ----------
+const ROLE = document.body.dataset.role === "maid-of-honor" ? "maid-of-honor" : "bridesmaid";
+if (ROLE === "maid-of-honor") {
+  const m = CONFIG.maidOfHonor;
+  CONFIG.duties = m.duties;
+  document.querySelector(".section--letter .eyebrow").textContent = m.greeting;
+  document.querySelector(".question__title .script").textContent = m.question;
+  document.querySelector(".section--entourage .eyebrow").textContent = m.detailsFor;
+}
+// each page remembers its own yes
+const YES_KEY = ROLE === "maid-of-honor" ? "fm-moh-said-yes" : "fm-said-yes";
 
 // ---------- Fill content ----------
 document.querySelectorAll("[data-bind]").forEach((el) => {
@@ -313,7 +336,7 @@ function showDetails(instant) {
   const after = document.getElementById("after-yes");
   const question = document.getElementById("question");
   if (!after.hidden) return;
-  try { localStorage.setItem("fm-said-yes", "1"); } catch (e) {}
+  try { localStorage.setItem(YES_KEY, "1"); } catch (e) {}
 
   const swap = () => {
     question.hidden = true;
@@ -339,7 +362,7 @@ function showDetails(instant) {
 
 // she already said yes on this phone: skip the question next time
 try {
-  if (localStorage.getItem("fm-said-yes")) showDetails(true);
+  if (localStorage.getItem(YES_KEY)) showDetails(true);
 } catch (e) {}
 
 // coming back via the browser's back button shows the cached page as it was;
